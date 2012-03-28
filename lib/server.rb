@@ -10,6 +10,10 @@ get '/callback' do
   "OK"
 end
 
+post '/callback' do
+  logger.info(params.inspect)
+end
+
 post '/tts' do
   logger.info(params.inspect)
   speech = URI.encode(params['text'])
