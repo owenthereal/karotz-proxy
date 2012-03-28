@@ -1,13 +1,15 @@
 #!/usr/bin/env rackup
 
-APP_ENV  = ENV['RACK_ENV'] ||= 'development' unless defined?(APP_ENV)
-APP_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(APP_ROOT)
+KAROTZ_PROXY_ENV  = ENV['RACK_ENV'] ||= 'development' unless defined?(KAROTZ_PROXY_ENV)
+KAROTZ_PROXY_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(KAROTZ_PROXY_ROOT)
+
+$LOAD_PATH.unshift File.join(KAROTZ_PROXY_ROOT, 'lib')
 
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
-Bundler.require(:default, APP_ENV)
+Bundler.require(:default, KAROTZ_PROXY_ENV)
 
 require 'sinatra'
-require File.join(APP_ROOT, 'lib', 'server')
+require File.join(KAROTZ_PROXY_ROOT, 'lib', 'server')
 
 run Sinatra::Application
