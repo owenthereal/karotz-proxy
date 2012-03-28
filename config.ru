@@ -10,6 +10,6 @@ require 'bundler/setup'
 Bundler.require(:default, APP_ENV)
 
 require 'sinatra'
-require 'server'
+require File.join(APP_ROOT, 'lib', 'server')
 
 run Sinatra::Application
