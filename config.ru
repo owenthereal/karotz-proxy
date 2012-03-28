@@ -10,6 +10,6 @@ require 'bundler/setup'
 Bundler.require(:default, KAROTZ_PROXY_ENV)
 
 require 'sinatra'
-require File.join(KAROTZ_PROXY_ROOT, 'lib', 'server')
+require 'server'
 
 run Sinatra::Application
