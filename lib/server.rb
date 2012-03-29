@@ -9,8 +9,12 @@ enable :logging, :dump_errors, :raise_errors
 
 get '/callback' do
   logger.info(params.inspect)
-  karotz = KarotzProxy::Karotz.new(params["interactive_id"])
-  settings.mapper.save(karotz)
+  karotz = KarotzProxy::Karotz.new(params["interactiveid"])
+  if settings.mapper.save(karotz)
+    "OK"
+  else
+    karotz.errors.inspect
+  end
 end
 
 post '/callback' do

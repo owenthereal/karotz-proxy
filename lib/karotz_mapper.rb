@@ -7,7 +7,12 @@ module KarotzProxy
     end
 
     def save(karotz)
-      db.save("karotzs", Yajl.dump(Hash[karotz.each_pair.to_a]))
+      if karotz.valid?
+        db.save("karotzs", Yajl.dump(Hash[karotz.each_pair.to_a]))
+        true
+      else
+        false
+      end
     end
 
     def all
