@@ -1,23 +1,38 @@
-require 'rest-client'
-require 'uri'
+require 'database'
+require 'karotz'
+require 'karotz_mapper'
 
-$interactive_ids = Set.new
+set :environment, KAROTZ_PROXY_ENV
+set :mapper, KarotzProxy::KarotzMapper.new(KarotzProxy::Database.new(ENV["REDISTOGO_URL"]))
+
+enable :logging, :dump_errors, :raise_errors
 
 get '/callback' do
   logger.info(params.inspect)
-  $interactive_ids << params['interactiveid']
-
-  "OK"
+  karotz = KarotzProxy::Karotz.new(params["interactive_id"])
+  settings.mapper.save(karotz)
 end
 
 post '/callback' do
   logger.info(params.inspect)
 end
 
-post '/tts' do
+get '/karotzs' do
+  settings.mapper.all.inspect
+end
+
+post '/karotzs/tts' do
   logger.info(params.inspect)
-  speech = URI.encode(params['text'])
-  $interactive_ids.map do |id|
-    RestClient.get "http://api.karotz.com/api/karotz/tts?action=speak&lang=EN&text=#{speech}&interactiveid=#{id}"
+  text = URI.encode(params['text'])
+  settings.mapper.all.map do |karotz|
+    karotz.tts(text)
   end.inspect
+end
+
+not_found do
+  logger.error("#{request.request_method} #{request.path} not found")
+end
+
+error do
+  logger.error("Error occurred: #{caller}")
 end
