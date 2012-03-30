@@ -9,7 +9,7 @@ enable :logging, :dump_errors, :raise_errors
 
 get '/callback' do
   logger.info(params.inspect)
-  karotz = KarotzProxy::Karotz.new(params["interactiveid"])
+  karotz = KarotzProxy::Karotz.new(params["interactiveid"], params["installid"])
   if settings.mapper.save(karotz)
     "OK"
   else
@@ -23,6 +23,10 @@ end
 
 get '/karotzs' do
   settings.mapper.all.inspect
+end
+
+get '/karotzs/destroy' do
+  settings.mapper.destroy_all
 end
 
 post '/karotzs/tts' do

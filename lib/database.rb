@@ -17,5 +17,11 @@ module KarotzProxy
     def all(model_name)
       redis.smembers(model_name)
     end
+
+    def destroy_all(model_name)
+      redis.smembers(model_name).each do |key|
+        redis.srem(model_name, key)
+      end
+    end
   end
 end

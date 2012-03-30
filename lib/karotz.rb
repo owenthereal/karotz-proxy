@@ -1,7 +1,7 @@
 require 'rest-client'
 
 module KarotzProxy
-  class Karotz < Struct.new(:interactive_id)
+  class Karotz < Struct.new(:interactive_id, :install_id)
     attr_reader :errors
 
     def initialize(*args)
@@ -17,6 +17,7 @@ module KarotzProxy
     def validate
       errors.clear
       errors[:interactive_id] = "Interactive ID can't be nil" if interactive_id.nil?
+      errors[:install_id] = "Install ID can't be nil" if install_id.nil?
     end
 
     def tts(text)

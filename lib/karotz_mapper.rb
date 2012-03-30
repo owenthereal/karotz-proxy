@@ -19,6 +19,10 @@ module KarotzProxy
       db.all("karotzs").collect { |json| create_karotz_from_hash(Yajl.load(json)) }
     end
 
+    def destroy_all
+      db.destroy_all("karotzs")
+    end
+
     private
 
     def create_karotz_from_hash(hash)
