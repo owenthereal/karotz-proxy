@@ -4,6 +4,8 @@ module KarotzProxy
   class Karotz < Struct.new(:interactive_id, :install_id)
     attr_reader :errors
 
+    alias_method :identifier, :install_id
+
     def initialize(*args)
       super
       @errors = {}

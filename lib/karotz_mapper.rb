@@ -8,7 +8,7 @@ module KarotzProxy
 
     def save(karotz)
       if karotz.valid?
-        db.save("karotzs", Yajl.dump(Hash[karotz.each_pair.to_a]))
+        db.save("karotzs", karotz.identifier, Yajl.dump(Hash[karotz.each_pair.to_a]))
         true
       else
         false
@@ -16,7 +16,7 @@ module KarotzProxy
     end
 
     def all
-      db.all("karotzs").collect { |json| create_karotz_from_hash(Yajl.load(json)) }
+      db.all("karotzs").collect { |pair| create_karotz_from_hash(Yajl.load(pair.last)) }
     end
 
     def destroy_all

@@ -1,16 +1,13 @@
-require 'database'
-require 'karotz'
-require 'karotz_mapper'
 
 set :environment, KAROTZ_PROXY_ENV
-set :mapper, KarotzProxy::KarotzMapper.new(KarotzProxy::Database.new(ENV["REDISTOGO_URL"]))
+set :karotz_mapper, KarotzProxy.karotz_mapper
 
 enable :logging, :dump_errors, :raise_errors
 
 get '/callback' do
   logger.info(params.inspect)
   karotz = KarotzProxy::Karotz.new(params["interactiveid"], params["installid"])
-  if settings.mapper.save(karotz)
+  if settings.karotz_mapper.save(karotz)
     "OK"
   else
     karotz.errors.inspect
@@ -22,17 +19,17 @@ post '/callback' do
 end
 
 get '/karotzs' do
-  settings.mapper.all.inspect
+  settings.karotz_mapper.all.inspect
 end
 
 get '/karotzs/destroy' do
-  settings.mapper.destroy_all
+  settings.karotz_mapper.destroy_all
 end
 
 post '/karotzs/tts' do
   logger.info(params.inspect)
   text = URI.encode(params['text'])
-  settings.mapper.all.map do |karotz|
+  settings.karotz_mapper.all.map do |karotz|
     karotz.tts(text)
   end.inspect
 end
