@@ -1,8 +1,7 @@
 #!/usr/bin/env rackup
 
-require 'config/boot'
+require File.expand_path("../config/boot.rb", __FILE__)
 require 'sinatra'
-require 'karotz-proxy'
 require 'server'
 
 run Sinatra::Application
