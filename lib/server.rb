@@ -38,7 +38,7 @@ post '/karotzs/play' do
   logger.info(params.inspect)
   url = URI.encode(params['url'])
   settings.karotz_mapper.all.map do |karotz|
-    karotz.play(url)
+    karotz.play(params['url'])
   end.inspect
 end
 
