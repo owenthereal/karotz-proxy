@@ -25,5 +25,9 @@ module KarotzProxy
     def tts(text)
       RestClient.get "http://api.karotz.com/api/karotz/tts?action=speak&lang=EN&text=#{text}&interactiveid=#{interactive_id}"
     end
+
+    def play(url)
+      RestClient.get "http://api.karotz.com/api/karotz/multimedia?action=play&url=#{url}&interactiveid=#{interactive_id}"
+    end
   end
 end

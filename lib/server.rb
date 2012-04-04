@@ -34,6 +34,14 @@ post '/karotzs/tts' do
   end.inspect
 end
 
+post '/karotzs/play' do
+  logger.info(params.inspect)
+  url = URI.encode(params['url'])
+  settings.karotz_mapper.all.map do |karotz|
+    karotz.play(url)
+  end.inspect
+end
+
 not_found do
   logger.error("#{request.request_method} #{request.path} not found")
 end
